@@ -70,7 +70,7 @@
    
 </div> 
 --}}
-<h3 class="login-box-msg">LOGIN</h3>
+<h3 class="login-box-msg">HAHA Some LOGIN</h3>
 
 
 {{-- <form action="../../index2.html" method="post"> --}}
