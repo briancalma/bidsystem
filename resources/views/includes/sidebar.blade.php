@@ -31,6 +31,9 @@
             <li @if($data['title'] === 'Projects') class="active" @endif>
                 <a href="/projects"><i class="fa fa-address-card"></i> <span>PROJECTS</span></a>
             </li>
+            <li @if($data['title'] === 'Proposals') class="active" @endif>
+                <a href="/proposals"><i class="fa fa-edit"></i> <span>PROPOSALS</span></a>
+            </li>
         </ul>
     </section>
         <!-- /.sidebar -->

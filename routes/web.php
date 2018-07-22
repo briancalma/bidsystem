@@ -23,3 +23,4 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 Route::resource('projects', 'ProjectsController');
+Route::resource('proposals', 'ProposalsController');

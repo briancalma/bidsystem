@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\Proposal;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -17,8 +18,35 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        //
-        $projects = Project::where('status','PENDING')->orderBy('id','desc')->get();
+        # TODO : Check for more robust way of accessing records with relationship
+        # TODO : Think if i should create another controller for the client user and admin user. 
+
+        if(auth()->user()->accout_type === "admin")
+        {
+            // Getting of all the pending posts 
+            $projects = Project::where('status','PENDING')->orderBy('id','desc')->get();
+            
+        }
+        else 
+        {
+            // Get all posts that have no client/user proposal 
+            $projects = Project::where('status','PENDING')->orderBy('id','desc')->get();
+            $project_list = [];
+
+            foreach ($projects as $project) 
+            {
+                // This loop will iterate to every project in the projects table
+                // and will check if such proposal with user_id and project_id exist 
+                // if no proposal is found then add this project to the project list array
+                $project_id = $project->id;
+                $user_id = auth()->user()->id;
+                $temp = Proposal::where('project_id',$project_id)->where('user_id',$user_id)->count();
+                
+                if($temp == 0) array_push($project_list,$project);
+            }
+
+            $projects = $project_list;
+        }
 
         $data = ['title' => 'Projects','sub_title' => 'Project List','content' => '','projects' => $projects];
 

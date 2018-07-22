@@ -48,7 +48,7 @@
                                     <td> {{$project['name']}} </td>
                                     <td> {{$project['info']}} </td>
                                     <td> <a href="/projects/{{$project['id']}}" class="btn btn-success btn-sm">View Project</a> </td>
-                                    <td> <a href="/projects/{{$project['id']}}" class="btn btn-primary btn-sm">I'm Interested</a> </td>
+                                    <td> <a href="/proposals/{{$project['id']}}" class="btn btn-primary btn-sm">I'm Interested</a> </td>
                                     {{-- 
                                         <td> <a href="/projects/{{$project['id']}}/edit" class="btn btn-info btn-sm">Edit Project</a> </td>
                                         <td>  
@@ -60,7 +60,6 @@
                                     --}}
                                 </tr>
                             @endforeach
-             
                         </table>
                     @endif    
                 </div>

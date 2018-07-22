@@ -72,7 +72,6 @@
 --}}
 <h3 class="login-box-msg">LOGIN</h3>
 
-
 {{-- <form action="../../index2.html" method="post"> --}}
 
 {!! Form::open(['route' => 'login']) !!}
@@ -112,7 +111,7 @@
         <!-- /.col -->
     </div>
 {!! Form::close() !!}
-        
+
     <a href="{{ route('password.request') }}">I forgot my password</a><br>
     <a href="{{ route('register') }}" class="text-center">Sign Up</a>
 @endsection
