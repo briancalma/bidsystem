@@ -220,4 +220,6 @@ class ProjectsController extends Controller
         
         if($project->delete()) return redirect('projects')->with('success','Project REMOVED');
     }
+
+
 }

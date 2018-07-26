@@ -12,4 +12,11 @@ class Proposal extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function projects()
+    {
+        return $this->belongsTo('App\Project');
+    }
+
+
 }

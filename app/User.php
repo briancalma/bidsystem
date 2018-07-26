@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function proposal()
+    public function proposals()
     {
         return $this->hasMany('App\Proposal');
     }

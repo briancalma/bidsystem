@@ -16,12 +16,20 @@
                                     <th>Status</th>
                                 </thead>
                             
-                                @foreach($data['proposals'] as $proposal)
+                                {{-- @foreach($data['proposals'] as $proposal)
                                     <tr>
                                         <td> {{$proposal['project_id']}} </td>
                                         <td> <label class="label bg-blue">{{$proposal['status']}}</label> </td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
+
+                                @for ($i = 0; $i < count($data['proposals']); $i++)
+                                    <tr>
+                                        <td> {{$data['project_names'][$i]}} </td>
+                                        <td> <label class="label bg-blue">{{$data['proposals'][$i]->status}}</label> </td>
+                                    </tr>
+                                @endfor
+
                             </table>
                         @endif 
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\User;
 use App\Project;
 use App\Proposal;
 
@@ -16,10 +17,21 @@ class ProposalsController extends Controller
      */
     public function index()
     {
+        # Getting of all the user proposals based on the user id
         $user_id = auth()->user()->id;
-        $proposals = Proposal::where('user_id',$user_id)->get();
-        $data = ['title' => 'Proposals','sub_title' => 'Proposal List','content' => '','proposals' => $proposals];
+        $proposals = User::find($user_id)->proposals;
+        $projectNames = [];
+        
+        # Retrieving of project names
+        foreach($proposals as $proposal) 
+        {
+            $project = Project::find($proposal->project_id);
+            array_push($projectNames,$project->name);
+        }
+
+        $data = ['title' => 'Proposals','sub_title' => 'Proposal List','content' => '','proposals' => $proposals,'project_names' => $projectNames];
         return view('proposals.user_proposals')->with(compact('data'));
+        // return $projectNames;
     }
 
     /**
@@ -118,4 +130,54 @@ class ProposalsController extends Controller
     {
         //
     }
+
+    public function getAllProposalsById($id)
+    {   
+        $proposals = Proposal::where('project_id',$id)
+                    ->where(function ($query){
+                        $query->where('status','PENDING')
+                              ->orWhere('status', '=', 'APPROVED');
+                    })
+                    ->get();
+        $project = Project::find($id);
+        $bidderNames = [];
+        $approvedProposals = [];
+
+        foreach ($proposals as $proposal) 
+        {   
+            $temp = Proposal::find($proposal->user_id)->user;
+            array_push($bidderNames, $temp->name);
+
+            if($proposal->status == "APPROVED")
+            {
+                array_push($approvedProposals,["id" => $proposal->id,"name" => $temp->name]);
+            }
+        }
+
+        $data = ['title' =>  'Proposals','sub_title' => '','content' => '','proposals' => $proposals,'project' => $project,'bidders' => $bidderNames,'approvedProposals' => $approvedProposals];
+        return view('proposals.view_proposals_by_project')->with(compact('data'));
+        // return $bidderNames;
+    }
+
+    public function approveProposal($id)
+    {
+        $proposal = Proposal::find($id);
+        $proposal->status = "APPROVED";
+        if( $proposal->save() ) return redirect()->back()->with('success','Proposal is APPROVED');
+    }
+
+    public function cancelApprovedProposal($id) 
+    {
+        $proposal = Proposal::find($id);
+        $proposal->status = "PENDING";
+        if( $proposal->save() ) return redirect()->back()->with('success','Proposal is CANCELLED');
+    }
+
+    public function disApproveProposal($id) 
+    {
+        $proposal = Proposal::find($id);
+        $proposal->status = "DISAPPROVED";
+        if( $proposal->save() ) return redirect()->back()->with('success','Proposal is DISAPPROVED');
+    }
+
 }
