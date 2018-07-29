@@ -26,3 +26,4 @@ Route::get('proposals/getAllProposalsById/{id}','ProposalsController@getAllPropo
 Route::get('proposals/approveProposal/{id}','ProposalsController@approveProposal');
 Route::get('/proposals/cancelApprovedProposal/{id}','ProposalsController@cancelApprovedProposal');
 Route::get('/proposals/disApproveProposal/{id}','ProposalsController@disApproveProposal');
+Route::get('/proposals/sendNotification/{id}','ProposalsController@sendNotification');

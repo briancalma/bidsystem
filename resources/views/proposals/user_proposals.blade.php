@@ -25,8 +25,13 @@
 
                                 @for ($i = 0; $i < count($data['proposals']); $i++)
                                     <tr>
-                                        <td> {{$data['project_names'][$i]}} </td>
-                                        <td> <label class="label bg-blue">{{$data['proposals'][$i]->status}}</label> </td>
+                                        <td> {{$data['project_names'][$i]["project_name"]}} </td>
+                                        <td> <label class="label bg-blue">{{$data['proposals'][$i]["status"]}}</label> </td>
+                                        @if( $data['project_names'][$i]["status"] == "IN_BIDDING" )
+                                            <td><a href="{{$data['project_names'][$i]["video_link"]}}" target="_blank" class="btn btn-success btn-sm">Go to video chat</a>  </td>
+                                        @elseif( $data['proposals'][$i]["status"] == "APPROVED" )
+                                            <td>FINALIZING</td>
+                                        @endif
                                     </tr>
                                 @endfor
 

@@ -9,7 +9,7 @@
                     <h3 class="box-title">Project : {{ $data["project"]->name }}</h3>
                     </div>
                     <div class="box-body">
-                        @if(count($data["proposals"]) > 0)
+                        @if(count($data["proposals"]) > 0 && $data["project"]->status != "IN_BIDDING")
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <th>Bidder</th>
@@ -45,6 +45,15 @@
                                     </tr>
                                 @endfor
                             </table>
+                        @else
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <th>CLICK THE LINK BELOW TO START VIDEO CHAT SESSION</th>
+                                </thead>
+                                <tbody>
+                                    <tr><td><a href="{{$data["project"]->video_link}}" target="_blank">{{$data["project"]->video_link}}</a></td></tr>
+                                </tbody>
+                            </table>
                         @endif
                     </div>
                 </div>
@@ -72,7 +81,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2"><a href="#" class="btn btn-lg btn-success">SEND NOTIFICATION</a></td>
+                                    <td colspan="2"><a href="/proposals/sendNotification/{{ $data["project"]->id }}" class="btn btn-lg btn-success">SEND NOTIFICATION</a></td>
                                     </tr>
                                 </tfoot>
                             </table>

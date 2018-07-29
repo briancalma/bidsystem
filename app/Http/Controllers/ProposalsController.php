@@ -21,12 +21,13 @@ class ProposalsController extends Controller
         $user_id = auth()->user()->id;
         $proposals = User::find($user_id)->proposals;
         $projectNames = [];
-        
+
         # Retrieving of project names
         foreach($proposals as $proposal) 
         {
             $project = Project::find($proposal->project_id);
-            array_push($projectNames,$project->name);
+
+            array_push($projectNames,["project_name" => $project->name,"status" => $project->status,"video_link" => $project->video_link]);
         }
 
         $data = ['title' => 'Proposals','sub_title' => 'Proposal List','content' => '','proposals' => $proposals,'project_names' => $projectNames];
@@ -180,4 +181,17 @@ class ProposalsController extends Controller
         if( $proposal->save() ) return redirect()->back()->with('success','Proposal is DISAPPROVED');
     }
 
+    public function sendNotification($id) {
+        // generate link 
+        $link = "https://meet.jit.si/" . "bidsys_project_".$id;
+        // send all jitsee 
+        $project = Project::find($id);
+        $project->video_link = $link;
+        // change project status to bidding
+        $project->status = "IN_BIDDING";
+        $project->save();
+        
+        return redirect()->back();
+        // show jistsee generated links
+    }
 }
