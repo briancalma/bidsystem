@@ -15,7 +15,7 @@ class AddVideoLinkToProjects extends Migration
     {
         // 
         Schema::table('projects',function($table){
-            $table->string('video_link')->nullable;
+            $table->string('video_link')->nullable();
          });
     }
 

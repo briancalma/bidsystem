@@ -28,12 +28,31 @@
             <li @if($data['title'] === 'Home') class="active" @endif>
                 <a href="/dashboard"><i class="fa fa-home"></i> <span>HOME</span></a>
             </li>
-            <li @if($data['title'] === 'Projects') class="active" @endif>
-                <a href="/projects"><i class="fa fa-address-card"></i> <span>PROJECTS</span></a>
-            </li>
-            <li @if($data['title'] === 'Proposals') class="active" @endif>
-                <a href="/proposals"><i class="fa fa-edit"></i> <span>PROPOSALS</span></a>
-            </li>
+            
+            @if( auth()->user()->account_type == "client")
+                <li @if($data['title'] === 'Projects') class="active" @endif>
+                    <a href="/projects"><i class="fa fa-address-card"></i> <span>PROJECTS</span></a>
+                </li>
+
+                <li @if($data['title'] === 'Proposals') class="active" @endif>
+                    <a href="/proposals"><i class="fa fa-edit"></i> <span>PROPOSALS</span></a>
+                </li>
+            @else
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-address-card"></i> <span>PROJECTS</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/projects/create"><i class="fa fa-plus-circle"></i> Add New Project</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Pending Projects</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> On-Going Projects</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Finished Projects</a></li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </section>
         <!-- /.sidebar -->

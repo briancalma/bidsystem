@@ -61,6 +61,9 @@ class ProjectsController extends Controller
     public function create()
     {
         //
+        $data = ['title' => 'Projects','sub_title' => 'Add New Project','content' => ''];
+
+        return view('projects/add_project_form')->with(compact('data'));
     }
 
     /**
