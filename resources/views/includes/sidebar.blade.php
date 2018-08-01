@@ -47,9 +47,9 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/projects/create"><i class="fa fa-plus-circle"></i> Add New Project</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Pending Projects</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> On-Going Projects</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Finished Projects</a></li>
+                        <li><a href="/projects"><i class="fa fa-circle-o"></i> Pending Projects</a></li>
+                        <li><a href="/projects/getProjects/IN_BIDDING"><i class="fa fa-circle-o"></i> On-Going Projects</a></li>
+                        <li><a href="/projects/getProjects/FINISHED"><i class="fa fa-circle-o"></i> Finished Projects</a></li>
                     </ul>
                 </li>
             @endif

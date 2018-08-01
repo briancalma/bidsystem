@@ -191,7 +191,8 @@ class ProposalsController extends Controller
         $project->status = "IN_BIDDING";
         $project->save();
         
-        return redirect()->back();
+        // return redirect()->back();
         // show jistsee generated links
+        return redirect('projects/getProjects/IN_BIDDING')->with('success','Proposal Set!');
     }
 }

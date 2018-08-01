@@ -22,10 +22,10 @@ Auth::routes();
 Route::get('/dashboard', 'DashboardController@index');
 Route::resource('projects', 'ProjectsController');
 Route::get('projects/showProjectForm','ProjectsController@showProjectForm');
-
+Route::get('projects/getProjects/{type}','ProjectsController@getProjects');
 
 Route::resource('proposals', 'ProposalsController');
-// Route::get('proposals/getAllProposalsById/{id}','ProposalsController@getAllProposalsById');
+Route::get('proposals/getAllProposalsById/{id}','ProposalsController@getAllProposalsById');
 Route::get('proposals/approveProposal/{id}','ProposalsController@approveProposal');
 Route::get('/proposals/cancelApprovedProposal/{id}','ProposalsController@cancelApprovedProposal');
 Route::get('/proposals/disApproveProposal/{id}','ProposalsController@disApproveProposal');

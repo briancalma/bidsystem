@@ -225,4 +225,13 @@ class ProjectsController extends Controller
     }
 
 
+    public function getProjects($type)
+    {
+        $projects = Project::where('status',$type)->get();
+
+        $data = ['title' => 'Projects','sub_title' => '','content' => '','projects' => $projects];
+
+        return view('projects.project_list')->with(compact('data'));
+    }
+
 }

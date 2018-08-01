@@ -35,13 +35,7 @@
                                         @else
                                             <td><a href="/proposals/cancelApprovedProposal/{{$proposals[$i]->id}}" class="btn btn-warning btn-block">Cancel Approval</a></td>
                                         @endif
-
                                         <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></a></td>
-                                        {{-- @if($proposals[$i]->status == "PENDING")
-                                            <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></a></td>
-                                        @elseif($proposals[$i]->status == "APPROVED") 
-                                            <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-success btn-block"><span class="fa fa-email"></span>SEND NOTIFICATION</a></td>
-                                        @endif --}}
                                     </tr>
                                 @endfor
                             </table>
@@ -60,7 +54,8 @@
             </div>
         </div>
 
-        <div class="row">
+        @if( count($data['approvedProposals']) > 0)
+            <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-info">
                         <div class="box-header with-border">
@@ -69,19 +64,19 @@
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
                                 <thead>
-                                     <th>Bidder</th>
-                                     <th>Action</th>
+                                        <th>Bidder</th>
+                                        <th>Action</th>
                                 </thead>
                                 <tbody>
                                     <?php $approvedList = $data["approvedProposals"]?>
                                     @foreach($approvedList as $item)
                                         <td>{{ $item["name"] }}</td>
-                                        <td><a href="#" class="btn btn-warning">Cancel</a></td>
+                                        <td><a href="/proposals/cancelApprovedProposal/{{$item['id']}}" class="btn btn-warning">Cancel</a></td>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                    <td colspan="2"><a href="/proposals/sendNotification/{{ $data["project"]->id }}" class="btn btn-lg btn-success">SEND NOTIFICATION</a></td>
+                                        <td colspan="2"><a href="/proposals/sendNotification/{{ $data["project"]->id }}" class="btn btn-lg btn-success">SUBMIT PROJECT FOR BIDDING</a></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -89,5 +84,6 @@
                     </div>
                 </div>
             </div>
+        @endif
    </div>
 @endsection
