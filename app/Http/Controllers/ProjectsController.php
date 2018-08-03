@@ -49,8 +49,8 @@ class ProjectsController extends Controller
         }
 
         $data = ['title' => 'Projects','sub_title' => 'Project List','content' => '','projects' => $projects];
-
         return view('projects.project_list')->with(compact('data'));
+        // return $projects;
     }
 
     /**

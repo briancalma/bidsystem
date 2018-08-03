@@ -37,7 +37,7 @@
                         </table>
                     @else 
                         <div class="alert alert-info">
-                            <p style="font-size:20px;"><span class="fa fa-info-circle"></span> Hmmm. . . There is no project records you can add a new project by click the add project on the sidebar menu.</p>
+                            <p style="font-size:20px;"><span class="fa fa-info-circle"></span> Hmmm. . . There is no project record you can add a new project by click the add project on the sidebar menu.</p>
                         </div>
                     @endif    
                 </div>
