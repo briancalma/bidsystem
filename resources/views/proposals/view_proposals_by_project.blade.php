@@ -9,45 +9,53 @@
                     <h3 class="box-title">Project : {{ $data["project"]->name }}</h3>
                     </div>
                     <div class="box-body">
-                        @if(count($data["proposals"]) > 0 && $data["project"]->status != "IN_BIDDING")
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <th>Bidder</th>
-                                    <th>Content</th>
-                                    <th>Files</th>
-                                </thead>
-                                <?php 
-                                    $proposals = $data['proposals'];
-                                    $bidders = $data["bidders"];
-                                ?>
+                        @if(count($data["proposals"]) > 0)
+                            @if($data["project"]->status != "IN_BIDDING")
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <th>Bidder</th>
+                                        <th>Content</th>
+                                        <th>Files</th>
+                                    </thead>
+                                    <?php 
+                                        $proposals = $data['proposals'];
+                                        $bidders = $data["bidders"];
+                                    ?>
 
-                                @for ($i = 0; $i < count($proposals); $i++)
-                                    <tr>
-                                        <td>{{$bidders[$i]}}</td>
-                                        <td>{{$proposals[$i]->content}}</td>
-                                        <td>
-                                            <a href="{{asset('storage/attachments')}}/{{$proposals[$i]->file}}" class="btn btn-success">
-                                                <i class="fa fa-file"></i>  DOWNLOAD FILE
-                                            </a>
-                                        </td>
-                                        @if($proposals[$i]->status == "PENDING")
-                                            <td><a href="/proposals/approveProposal/{{$proposals[$i]->id}}" class="btn btn-info btn-block"><span class="fa fa-heart"></span>Approve</a></td>
-                                        @else
-                                            <td><a href="/proposals/cancelApprovedProposal/{{$proposals[$i]->id}}" class="btn btn-warning btn-block">Cancel Approval</a></td>
-                                        @endif
-                                        <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></a></td>
-                                    </tr>
-                                @endfor
-                            </table>
-                        @else
+                                    @for ($i = 0; $i < count($proposals); $i++)
+                                        <tr>
+                                            <td>{{$bidders[$i]}}</td>
+                                            <td>{{$proposals[$i]->content}}</td>
+                                            <td>
+                                                <a href="{{asset('storage/attachments')}}/{{$proposals[$i]->file}}" class="btn btn-success">
+                                                    <i class="fa fa-file"></i>  DOWNLOAD FILE
+                                                </a>
+                                            </td>
+                                            @if($proposals[$i]->status == "PENDING")
+                                                <td><a href="/proposals/approveProposal/{{$proposals[$i]->id}}" class="btn btn-info btn-block"><span class="fa fa-heart"></span>Approve</a></td>
+                                            @else
+                                                <td><a href="/proposals/cancelApprovedProposal/{{$proposals[$i]->id}}" class="btn btn-warning btn-block">Cancel Approval</a></td>
+                                            @endif
+                                            <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></a></td>
+                                        </tr>
+                                    @endfor
+                                </table>
+                            @else
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <th>CLICK THE LINK BELOW TO START VIDEO CHAT SESSION</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td><a href="{{$data["project"]->video_link}}" target="_blank">{{$data["project"]->video_link}}</a></td></tr>
+                                    </tbody>
+                                </table>
+                            @endif
+                        @else 
                             <table class="table table-bordered table-hover">
                                 <thead>
-                                    <th>CLICK THE LINK BELOW TO START VIDEO CHAT SESSION</th>
+                                    <th>No Bidder's Proposal.</th>
                                 </thead>
-                                <tbody>
-                                    <tr><td><a href="{{$data["project"]->video_link}}" target="_blank">{{$data["project"]->video_link}}</a></td></tr>
-                                </tbody>
-                            </table>
+                            </table>   
                         @endif
                     </div>
                 </div>

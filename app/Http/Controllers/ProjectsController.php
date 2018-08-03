@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -232,6 +237,18 @@ class ProjectsController extends Controller
         $data = ['title' => 'Projects','sub_title' => '','content' => '','projects' => $projects];
 
         return view('projects.project_list')->with(compact('data'));
+    }
+
+    
+    public function finishedProject($projectId)
+    {
+        $project = Project::find($projectId);
+
+        $project->status = 'FINISHED';
+        
+        $project->save();
+
+        return redirect('projects/getProjects/FINISHED')->with('success','Wala na Finished na!');
     }
 
 }

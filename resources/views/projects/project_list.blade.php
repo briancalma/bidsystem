@@ -31,6 +31,7 @@
                                         </td>
                                     @elseif($project["status"] == "IN_BIDDING" )
                                         <td> <a href="{{$project["video_link"]}}" target="_blank" class="btn btn-info btn-sm">VIDEO CHAT</a> </td> 
+                                        <td> <a href="/projects/finishedProject/{{ $project['id'] }}" class="btn btn-success btn-sm">Terminate Bidding Session</a> </td> 
                                     @endif
                                 </tr>
                             @endforeach

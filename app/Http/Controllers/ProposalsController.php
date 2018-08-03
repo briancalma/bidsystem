@@ -10,6 +10,11 @@ use App\Proposal;
 
 class ProposalsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -195,4 +200,6 @@ class ProposalsController extends Controller
         // show jistsee generated links
         return redirect('projects/getProjects/IN_BIDDING')->with('success','Proposal Set!');
     }
+
+
 }

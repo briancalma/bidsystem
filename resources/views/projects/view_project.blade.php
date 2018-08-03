@@ -37,7 +37,7 @@
                             {{ Form::hidden('_method','DELETE') }}
                         {!! Form::close() !!}
                     @else
-                        <a href="/projects/{{$data['project']->id}}/edit" class="btn btn-info"><i class="fa fa-star"></i>  Im Interested</a>
+                        <a href="/proposals/{{$data['project']->id}}" class="btn btn-info"><i class="fa fa-star"></i>  Im Interested</a>
                         <a href="/projects" class="btn btn-warning"><i class="fa fa-arrow-left"></i>  Back</a>
                     @endif
                 </div>

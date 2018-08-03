@@ -30,7 +30,13 @@
                                         @if( $data['project_names'][$i]["status"] == "IN_BIDDING" )
                                             <td><a href="{{$data['project_names'][$i]["video_link"]}}" target="_blank" class="btn btn-success btn-sm">Go to video chat</a>  </td>
                                         @elseif( $data['proposals'][$i]["status"] == "APPROVED" )
-                                            <td>FINALIZING</td>
+                                            @if( $data['project_names'][$i]["status"] == "FINISHED" )
+                                                <td>BIDDING SESSION IS FINISHED</td>
+                                            @else    
+                                                <td>FINALIZING</td>
+                                            @endif
+                                        @else 
+                                            <td>Waiting for ADMIN's Approval</td>
                                         @endif
                                     </tr>
                                 @endfor
