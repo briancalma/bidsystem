@@ -90,8 +90,14 @@ class ProjectsController extends Controller
             $fileNameWithExtension = $request->file('image')->getClientOriginalName();
             $fileName = pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $fileName."__".time().".".$extension;
-            $path = $request->file('image')->storeAs('public/coverImages',$fileNameToStore);
+
+            $fileNameToStore = "";
+
+            if($this->checkIfValidImage($extension)) {
+                $fileNameToStore = $fileName."__".time().".".$extension;
+                $path = $request->file('image')->storeAs('public/coverImages',$fileNameToStore);
+            } 
+            else $fileNameToStore = 'noimage.jpg';    
         }
         else
         {
@@ -117,12 +123,26 @@ class ProjectsController extends Controller
         $project->image = $fileNameToStore;
         $project->files = $attachmentNameToStore;
 
-        if($project->save())
-        {
-            return redirect('projects')->with('success','Sucess In Adding a New Post!');
-        }
+        echo $project->image;
+
+        
+        // if($project->save())
+        // {
+        //     return redirect('projects')->with('success','Sucess In Adding a New Post!');
+        // }
 
     }
+
+    private function checkIfValidImage($ext) {
+        
+        if( !empty($ext) ) {
+            return ( $ext == 'jpg' ) || ( $ext == 'jpeg' ) || ( $ext == 'png' );
+        }
+
+        return false;
+    
+    }
+
 
     /**
      * Display the specified resource.
