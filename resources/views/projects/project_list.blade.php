@@ -24,7 +24,8 @@
                                         <td> <a href="/projects/{{$project['id']}}" class="btn btn-success btn-sm">View Project</a> </td>
                                         <td> <a href="/projects/{{$project['id']}}/edit" class="btn btn-info btn-sm">Edit Project</a> </td>
                                         <td>  
-                                            {!! Form::open(['action' => ['ProjectsController@destroy',$project['id']]],['class' => 'pull-right']) !!}
+                                                {{-- Form::open(['action' => ['ProjectsController@destroy',$data['project']->id],'onsubmit' => 'return ConfirmDelete()' ],     --}}
+                                            {!! Form::open(['action' => ['ProjectsController@destroy',$project['id']], 'onsubmit' => 'return ConfirmDelete()' ],['class' => 'pull-right']  ) !!}
                                                 {{ Form::submit('REMOVE PROJECT',['class' => 'btn btn-danger btn-sm']) }}
                                                 {{ Form::hidden('_method','DELETE') }}
                                             {!! Form::close() !!} 
@@ -81,4 +82,6 @@
             </div>  
         @endif
     </div>
+
+    @include('includes.scripts')
 @endsection

@@ -26,17 +26,19 @@
                                 @for ($i = 0; $i < count($data['proposals']); $i++)
                                     <tr>
                                         <td> {{$data['project_names'][$i]["project_name"]}} </td>
-                                        <td> <label class="label bg-blue">{{$data['proposals'][$i]["status"]}}</label> </td>
+                                        <td>     
+                                            <label class="label bg-blue">{{$data['proposals'][$i]["status"]}}</label> 
+                                        </td>
                                         @if( $data['project_names'][$i]["status"] == "IN_BIDDING" )
                                             <td><a href="{{$data['project_names'][$i]["video_link"]}}" target="_blank" class="btn btn-success btn-sm">Go to video chat</a>  </td>
                                         @elseif( $data['proposals'][$i]["status"] == "APPROVED" )
                                             @if( $data['project_names'][$i]["status"] == "FINISHED" )
-                                                <td>BIDDING SESSION IS FINISHED</td>
+                                                <td class="text-green">BIDDING SESSION IS FINISHED</td>
                                             @else    
-                                                <td>FINALIZING</td>
+                                                <td class="text-aqua">FINALIZING</td>
                                             @endif
                                         @else 
-                                            <td>Waiting for ADMIN's Approval</td>
+                                            <td class="text-warning">Waiting for ADMIN's Approval</td>
                                         @endif
                                     </tr>
                                 @endfor

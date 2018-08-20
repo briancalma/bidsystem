@@ -123,14 +123,10 @@ class ProjectsController extends Controller
         $project->image = $fileNameToStore;
         $project->files = $attachmentNameToStore;
 
-        echo $project->image;
-
-        
-        // if($project->save())
-        // {
-        //     return redirect('projects')->with('success','Sucess In Adding a New Post!');
-        // }
-
+        if($project->save())
+        {
+            return redirect('projects')->with('success','Sucess In Adding a New Post!');
+        }
     }
 
     private function checkIfValidImage($ext) {
@@ -189,42 +185,59 @@ class ProjectsController extends Controller
         $project->info = $request->input('info');
 
          // Image Upload process
-         if($request->hasFile('image'))
-         {
-             $fileNameWithExtension = $request->file('image')->getClientOriginalName();
-             $fileName = pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
-             $extension = $request->file('image')->getClientOriginalExtension();
-             $fileNameToStore = $fileName."__".time().".".$extension;
-             $path = $request->file('image')->storeAs('public/coverImages',$fileNameToStore);
+        if($request->hasFile('image'))
+        {
+            // Getting the image file
+            $fileNameWithExtension = $request->file('image')->getClientOriginalName();
+            $fileName = pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
 
-             if($project->image != 'noimage.jpg')
+            $fileNameToStore = "";
+
+            // Checks if the file being upload is valid
+            if($this->checkIfValidImage($extension)) {
+                $fileNameToStore = $fileName."__".time().".".$extension;
+                $path = $request->file('image')->storeAs('public/coverImages',$fileNameToStore);
+            } 
+            else $fileNameToStore = 'noimage.jpg';       
+
+            if($project->image != 'noimage.jpg')
                 Storage::delete('public/coverImages/'.$project->image);
-         }
-         else
-         {
-             $fileNameToStore = 'noimage.jpg';
-         }
- 
-         // File Upload
-         if($request->hasFile('files'))
-         {
-             $fileNameWithExtension = $request->file('files')->getClientOriginalName();
-             $fileName = pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
-             $extension = $request->file('files')->getClientOriginalExtension();
-             $attachmentNameToStore = $fileName."__".time().".".$extension;
-             $path = $request->file('files')->storeAs('public/attachments',$attachmentNameToStore);
+        }
+        else
+        {
+            $fileNameToStore = $project->image;
 
-             if($project->files != '')
+            if( empty($fileNameToStore) )
+                $fileNameToStore = 'noimage.jpg';
+        }
+
+
+
+        // File Upload
+        if($request->hasFile('files'))
+        {
+            // Retrieving file
+            $fileNameWithExtension = $request->file('files')->getClientOriginalName();
+            $fileName = pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
+            $extension = $request->file('files')->getClientOriginalExtension();
+            $attachmentNameToStore = $fileName."__".time().".".$extension;
+            $path = $request->file('files')->storeAs('public/attachments',$attachmentNameToStore);
+
+            if($project->files != '')
                 Storage::delete('public/attachments/'.$project->files);
-         }
-         else
-         {
-             $attachmentNameToStore = '';
-         }
+        }
+        else
+        {
+            $attachmentNameToStore = $project->files;
+
+            if(empty($attachmentNameToStore))
+                $attachmentNameToStore = '';
+        }
 
 
-         $project->image = $fileNameToStore;
-         $project->files = $attachmentNameToStore;
+        $project->image = $fileNameToStore;
+        $project->files = $attachmentNameToStore;
 
 
         if($project->save()) return redirect('projects')->with('success','Success In Updating a Project');
@@ -252,7 +265,9 @@ class ProjectsController extends Controller
 
     public function getProjects($type)
     {
-        $projects = Project::where('status',$type)->get();
+        $projects = Project::where('status',$type)
+                            ->orderBy('id','desc')
+                            ->get();
 
         $data = ['title' => 'Projects','sub_title' => '','content' => '','projects' => $projects];
 
@@ -268,7 +283,7 @@ class ProjectsController extends Controller
         
         $project->save();
 
-        return redirect('projects/getProjects/FINISHED')->with('success','Wala na Finished na!');
+        return redirect('projects/getProjects/FINISHED')->with('success','Project Bidding is now ended!');
     }
 
 }

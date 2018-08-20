@@ -21,22 +21,26 @@
                                         $proposals = $data['proposals'];
                                         $bidders = $data["bidders"];
                                     ?>
-
+ 
                                     @for ($i = 0; $i < count($proposals); $i++)
                                         <tr>
                                             <td>{{$bidders[$i]}}</td>
                                             <td>{{$proposals[$i]->content}}</td>
                                             <td>
-                                                <a href="{{asset('storage/attachments')}}/{{$proposals[$i]->file}}" class="btn btn-success">
-                                                    <i class="fa fa-file"></i>  DOWNLOAD FILE
-                                                </a>
+                                                @if( !empty($proposals[$i]->files) )
+                                                    <a href="{{asset('storage/proposalFiles')}}/{{$proposals[$i]->files}}" class="btn btn-success">
+                                                       <i class="fa fa-file"></i>  DOWNLOAD FILE
+                                                    </a>
+                                                @else 
+                                                    <span class="label label-danger" style="font-size:15px;">NO FILE</span>  
+                                                @endif
                                             </td>
                                             @if($proposals[$i]->status == "PENDING")
                                                 <td><a href="/proposals/approveProposal/{{$proposals[$i]->id}}" class="btn btn-info btn-block"><span class="fa fa-heart"></span>Approve</a></td>
                                             @else
                                                 <td><a href="/proposals/cancelApprovedProposal/{{$proposals[$i]->id}}" class="btn btn-warning btn-block">Cancel Approval</a></td>
                                             @endif
-                                            <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></a></td>
+                                            <td><a href="/proposals/disApproveProposal/{{$proposals[$i]->id}}" class="btn btn-danger btn-block" onclick="return ConfirmDelete()"><span class="fa fa-trash"></span></a></td>
                                         </tr>
                                     @endfor
                                 </table>
@@ -94,4 +98,6 @@
             </div>
         @endif
    </div>
+
+   @include('includes.scripts')
 @endsection

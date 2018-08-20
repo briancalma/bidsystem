@@ -151,7 +151,7 @@ class ProposalsController extends Controller
 
         foreach ($proposals as $proposal) 
         {   
-            $temp = Proposal::find($proposal->user_id)->user;
+            $temp = User::find($proposal->user_id);
             array_push($bidderNames, $temp->name);
 
             if($proposal->status == "APPROVED")
@@ -159,7 +159,7 @@ class ProposalsController extends Controller
                 array_push($approvedProposals,["id" => $proposal->id,"name" => $temp->name]);
             }
         }
-
+ 
         $data = ['title' =>  'Proposals','sub_title' => '','content' => '','proposals' => $proposals,'project' => $project,'bidders' => $bidderNames,'approvedProposals' => $approvedProposals];
         return view('proposals.view_proposals_by_project')->with(compact('data'));
         // return $bidderNames;
@@ -185,7 +185,7 @@ class ProposalsController extends Controller
         $proposal->status = "DISAPPROVED";
         if( $proposal->save() ) return redirect()->back()->with('success','Proposal is DISAPPROVED');
     }
-
+    
     public function sendNotification($id) {
         // generate link 
         $link = "https://meet.jit.si/" . "bidsys_project_".$id;
