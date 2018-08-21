@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Project;
 use App\Proposal;
+use Mail;
+use App\Mail\VideoLinkNotification;
 
 class ProposalsController extends Controller
 {
@@ -192,14 +194,37 @@ class ProposalsController extends Controller
         // send all jitsee 
         $project = Project::find($id);
         $project->video_link = $link;
+
         // change project status to bidding
         $project->status = "IN_BIDDING";
         $project->save();
         
         // return redirect()->back();
+
+        // get all email of those persons who are valid and send this to them. 
+        $proposals = Proposal::where('project_id',$id)
+                                ->where('status','APPROVED')
+                                ->get();
+        
+        $user_ids = array();
+
+        foreach($proposals as $proposal) {
+            // array_push($user_ids,$proposal->user_id);
+            $user_id = $proposal->user_id;
+
+            $this->sendEmail($user_id, $link);
+        }
+        // return $proposals;
         // show jistsee generated links
-        return redirect('projects/getProjects/IN_BIDDING')->with('success','Proposal Set!');
+        return redirect('projects/getProjects/IN_BIDDING')->with('success','Proposal Notifications Set!');
     }
 
+    public function sendEmail($id, $link)
+    {
+        $user = User::find($id);
+    
+        // Send Email here 
+        Mail::to($user->email)->send( new VideoLinkNotification($link) );
+    }
 
 }
