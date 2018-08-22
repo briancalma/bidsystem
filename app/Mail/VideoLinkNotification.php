@@ -32,6 +32,7 @@ class VideoLinkNotification extends Mailable
      */
     public function build()
     {
+        // return $video_link;
         return $this->markdown('emails.notification.videolink');
     }
 }
